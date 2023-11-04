@@ -15,8 +15,9 @@ function useCountriesQuery() {
 export default defineComponent({
   components: {Country},
   setup() {
-    const selectedCountry = ref('')
+    let selectedCountry = ref('')
     const dialog = ref(false)
+    if (!dialog){ selectedCountry = ref('') }
     const { isLoading: countriesLoading, isError: countriesError, error: countriesErrorData, data: countriesData } = useCountriesQuery()
 
     return { countriesLoading, countriesError, countriesErrorData, countriesData, dialog, selectedCountry }
