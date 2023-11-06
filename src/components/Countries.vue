@@ -16,7 +16,7 @@ const fetcherCountry = async (name: string): Promise<Country> =>
     );
 
 function useCountriesQuery() {
-  return useQuery({ queryKey: ["countries"], queryFn: fetcherCountries });
+  return useQuery<Countries>({ queryKey: ["countries"], queryFn: fetcherCountries });
 }
 
 export default defineComponent({
@@ -35,7 +35,7 @@ export default defineComponent({
       error: countryErrorData,
       data: countryData,
       refetch,
-    } = useQuery({
+    } = useQuery<Country>({
       queryKey: ["country", selectedCountry.value],
       queryFn: async () => await fetcherCountry(selectedCountry.value),
     });
