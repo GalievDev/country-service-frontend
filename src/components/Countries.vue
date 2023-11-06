@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/vue-query";
 import { Countries } from "../dto/Countries.ts";
 import { defineComponent, ref } from "vue";
 import Country from "../dto/Country.ts";
+import countries from '../dto/countries.json';
 
 const fetcherCountries = async (): Promise<Countries> =>
     await fetch("http://127.0.0.1:8080/countries/").then((response) =>
@@ -55,6 +56,7 @@ export default defineComponent({
       countriesErrorData,
       countriesData,
       dialog,
+      countries,
       selectedCountry,
       countryLoading,
       countryError,
@@ -70,7 +72,35 @@ export default defineComponent({
 
 <template>
   <v-alert v-if="countriesLoading" class="text-center" type="info" color="green" density="compact" text="Loading... Please wait." variant="tonal"></v-alert>
-  <v-alert v-else-if="countriesError" class="text-center" type="error" density="compact" text="Error: " variant="tonal">An error has occurred {{ countriesErrorData }} </v-alert>
+  <v-alert v-else-if="countriesError" class="text-center" type="error" density="compact" variant="tonal">
+    {{ countriesErrorData }}
+    <v-container>
+      <v-row class="justify-center">
+        <v-col
+            xs="1"
+            sm="6"
+            md="5"
+            lg="3"
+            xl="3"
+            v-for="(country, index) in countries.countries"
+            :key="index"
+        >
+          <v-container>
+            <v-card>
+              <v-img :src="country.flag_file_url"></v-img>
+              <v-card-title>{{ country.name }}</v-card-title>
+              <v-card-text>
+                <p> Country code: {{ country.country_code }} </p>
+                <p> Capital: {{ country.capital }} </p>
+                <p> Population: {{ country.population }} </p>
+              </v-card-text>
+            </v-card>
+          </v-container>
+        </v-col>
+      </v-row>
+    </v-container>
+    Offline (demo) data
+  </v-alert>
   <v-container v-else-if="countriesData">
     <v-dialog v-model="dialog" class="w-33 h-auto">
       <v-progress-circular v-if="countryLoading"></v-progress-circular>
