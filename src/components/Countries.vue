@@ -86,7 +86,7 @@ export default defineComponent({
             :key="index"
         >
           <v-container>
-            <v-card>
+            <v-card @click="dialog=true">
               <v-img :src="country.flag_file_url"></v-img>
               <v-card-title>{{ country.name }}</v-card-title>
               <v-card-text>
